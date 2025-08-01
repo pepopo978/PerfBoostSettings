@@ -12,6 +12,9 @@ PerfBoost:RegisterDefaults("profile", {
 })
 PerfBoost.frame = CreateFrame("Frame", "PerfBoost", UIParent)
 
+BINDING_HEADER_PERFBOOST = "PerfBoost";
+BINDING_NAME_PERFBOOSTENABLE = "Toggles whether perfboot is enabled/disabled";
+
 -- used when turning on per character settings
 function PerfBoost:SavePerCharacterSettings()
 	for settingKey, settingData in pairs(PerfBoost.cmdtable.args) do
@@ -289,7 +292,7 @@ end
 
 SLASH_PBENABLE1, SLASH_PBENABLE2 = '/pbenable', '/perfboostenable'
 function SlashCmdList.PBENABLE(msg, editbox)
-	local v = not GetCVar("PB_Enabled") == "1"
+	local v = not (GetCVar("PB_Enabled") == "1")
 	PerfBoost.db.profile.PB_Enabled = v
 	if v == true then
 		SetCVar("PB_Enabled", "1")

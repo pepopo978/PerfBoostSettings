@@ -1,0 +1,7 @@
+<Bindings>
+
+	<Binding name="PERFBOOSTENABLE" header="PERFBOOST">
+		SlashCmdList.PBENABLE()
+	</Binding>
+
+</Bindings>
