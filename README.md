@@ -6,6 +6,7 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 
 ### Master Control
 - **Enable Performance Boost** - Enable/disable all performance boost features
+** You can keybind this highly recommend doing so **
 
 ### Rendering Settings
 - **Always Render Raid Marks** - Whether to always render raid marks regardless of distance/combat/etc
