@@ -8,6 +8,8 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 - **Enable Performance Boost** - Enable/disable all performance boost features
 ** You can keybind this highly recommend doing so **
 
+<u>You can keybind this in your keybinds — I highly recommend doing this in case you need to see hidden units in an emergency!</u>
+
 ### Rendering Settings
 - **Always Render Raid Marks** - Whether to always render raid marks regardless of distance/combat/etc
 

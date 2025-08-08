@@ -268,6 +268,30 @@ PerfBoost.cmdtable = {
 				SetCVar("PB_CorpseRenderDist", tostring(v))
 			end,
 		},
+
+		spacerf = {
+			type = "header",
+			name = " ",
+			order = 85,
+		},
+
+		PB_FilterGuidEvents = {
+			type = "toggle",
+			name = "Filter GUID Events",
+			desc = "Filters out generally unnecessary superwow GUID-based events to reduce event spam and improve performance. Blocks events like UNIT_AURA, UNIT_HEALTH, UNIT_MANA when triggered with a guid instead of a string like 'player' or 'raid1', while preserving commonly used guid events like UNIT_COMBAT and UNIT_MODEL_CHANGED.",
+			order = 90,
+			get = function()
+				return GetCVar("PB_FilterGuidEvents") == "1"
+			end,
+			set = function(v)
+				PerfBoost.db.profile.PB_FilterGuidEvents = v
+				if v == true then
+					SetCVar("PB_FilterGuidEvents", "1")
+				else
+					SetCVar("PB_FilterGuidEvents", "0")
+				end
+			end,
+		},
 	},
 }
 
