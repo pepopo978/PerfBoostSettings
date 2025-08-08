@@ -1,5 +1,5 @@
 ## Interface: 11200
-## Title: Perf_boost Settings v1.0.0
+## Title: Perf_boost Settings v1.0.1
 ## Notes: the companion compatibility addon to the mod of the same name.
 ## Author: Pepopo
 ## SavedVariablesPerCharacter: PerfBoostSettingsDB
