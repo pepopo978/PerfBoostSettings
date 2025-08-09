@@ -11,6 +11,10 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 
 ### Rendering Settings
 - **Always Render Raid Marks** - Whether to always render raid marks regardless of distance/combat/etc
+- **Always Render Players** - Comma-separated list of player names to always render regardless of other settings
+- **Never Render Players** - Comma-separated list of player names to never render regardless of other settings
+
+**Note:** The addon will scan for players in your always/never render lists once per minute to cache their GUIDs. For better performance, it's recommended to clear out old names from these lists when players are no longer relevant.
 
 ### Player Render Distance
 - **Default Player Render Distance** - Max distance to render players when not in combat or cities (-1 to disable, 0-100 yards)
@@ -35,11 +39,18 @@ The addon will prioritize render distances in the following order:
 2. **City Distance** - Used when in cities (for players only)
 3. **Default Distance** - Used in all other situations (lowest priority)
 
-## Emergency Commands
+## Slash Commands
 
-If you need to quickly disable performance boost features:
-
+### General Commands
 - `/pbenable` or `/perfboostenable` - Toggle performance boost on/off
+
+### Player Render List Commands
+- `/pbalwaysrender` or `/pbar` - Add current target to always render list
+- `/pbalwaysrenderremove` or `/pbarr` - Remove current target from always render list
+- `/pbalwaysrenderclear` or `/pbarc` - Clear entire always render list
+- `/pbneverrender` or `/pbnr` - Add current target to never render list  
+- `/pbneverrenderremove` or `/pbnrr` - Remove current target from never render list
+- `/pbneverrenderclear` or `/pbnrc` - Clear entire never render list
 
 ## Per-Character Settings
 

@@ -105,6 +105,36 @@ PerfBoost.cmdtable = {
 			end,
 		},
 
+		PB_AlwaysRenderPlayers = {
+			type = "text",
+			name = "Always Render Players (ENTER to save)",
+			desc = "Comma separated list of playernames to always render regardless of other settings",
+			usage = "Name1,Name2,etc",
+			order = 17,
+			get = function()
+				return GetCVar("PB_AlwaysRenderPlayers") or ""
+			end,
+			set = function(v)
+				PerfBoost.db.profile.PB_AlwaysRenderPlayers = v
+				SetCVar("PB_AlwaysRenderPlayers", v)
+			end,
+		},
+
+		PB_NeverRenderPlayers = {
+			type = "text",
+			name = "Never Render Players (ENTER to save)",
+			desc = "Comma separated list of playernames to never render regardless of other settings",
+			usage = "Name1,Name2,etc",
+			order = 18,
+			get = function()
+				return GetCVar("PB_NeverRenderPlayers") or ""
+			end,
+			set = function(v)
+				PerfBoost.db.profile.PB_NeverRenderPlayers = v
+				SetCVar("PB_NeverRenderPlayers", v)
+			end,
+		},
+
 		spacerb = {
 			type = "header",
 			name = " ",
@@ -323,4 +353,162 @@ function SlashCmdList.PBENABLE(msg, editbox)
 	else
 		SetCVar("PB_Enabled", "0")
 	end
+end
+
+SLASH_PBALWAYSRENDER1, SLASH_PBALWAYSRENDER2 = '/pbalwaysrender', '/pbar'
+function SlashCmdList.PBALWAYSRENDER(msg, editbox)
+	local target = UnitName("target")
+	if not target then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r No target selected")
+		return
+	end
+	
+	local current = GetCVar("PB_AlwaysRenderPlayers") or ""
+	local names = {}
+	if current ~= "" then
+		for name in string.gfind(current, "([^,]+)") do
+			name = string.gsub(name, "^%s*(.-)%s*$", "%1")
+			if name ~= "" then
+				names[name] = true
+			end
+		end
+	end
+	
+	if names[target] then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r " .. target .. " is already in always render list")
+		return
+	end
+	
+	names[target] = true
+	local newList = ""
+	for name in pairs(names) do
+		if newList == "" then
+			newList = name
+		else
+			newList = newList .. "," .. name
+		end
+	end
+	
+	PerfBoost.db.profile.PB_AlwaysRenderPlayers = newList
+	SetCVar("PB_AlwaysRenderPlayers", newList)
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Added " .. target .. " to always render list")
+end
+
+SLASH_PBNEVERRENDER1, SLASH_PBNEVERRENDER2 = '/pbneverrender', '/pbnr'
+function SlashCmdList.PBNEVERRENDER(msg, editbox)
+	local target = UnitName("target")
+	if not target then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r No target selected")
+		return
+	end
+	
+	local current = GetCVar("PB_NeverRenderPlayers") or ""
+	local names = {}
+	if current ~= "" then
+		for name in string.gfind(current, "([^,]+)") do
+			name = string.gsub(name, "^%s*(.-)%s*$", "%1")
+			if name ~= "" then
+				names[name] = true
+			end
+		end
+	end
+	
+	if names[target] then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r " .. target .. " is already in never render list")
+		return
+	end
+	
+	names[target] = true
+	local newList = ""
+	for name in pairs(names) do
+		if newList == "" then
+			newList = name
+		else
+			newList = newList .. "," .. name
+		end
+	end
+	
+	PerfBoost.db.profile.PB_NeverRenderPlayers = newList
+	SetCVar("PB_NeverRenderPlayers", newList)
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Added " .. target .. " to never render list")
+end
+
+SLASH_PBALWAYSRENDERREMOVE1, SLASH_PBALWAYSRENDERREMOVE2 = '/pbalwaysrenderremove', '/pbarr'
+function SlashCmdList.PBALWAYSRENDERREMOVE(msg, editbox)
+	local target = UnitName("target")
+	if not target then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r No target selected")
+		return
+	end
+	
+	local current = GetCVar("PB_AlwaysRenderPlayers") or ""
+	local names = {}
+	if current ~= "" then
+		for name in string.gfind(current, "([^,]+)") do
+			name = string.gsub(name, "^%s*(.-)%s*$", "%1")
+			if name ~= "" and name ~= target then
+				names[name] = true
+			end
+		end
+	end
+	
+	local newList = ""
+	for name in pairs(names) do
+		if newList == "" then
+			newList = name
+		else
+			newList = newList .. "," .. name
+		end
+	end
+	
+	PerfBoost.db.profile.PB_AlwaysRenderPlayers = newList
+	SetCVar("PB_AlwaysRenderPlayers", newList)
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Removed " .. target .. " from always render list")
+end
+
+SLASH_PBNEVERRENDERREMOVE1, SLASH_PBNEVERRENDERREMOVE2 = '/pbneverrenderremove', '/pbnrr'
+function SlashCmdList.PBNEVERRENDERREMOVE(msg, editbox)
+	local target = UnitName("target")
+	if not target then
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r No target selected")
+		return
+	end
+	
+	local current = GetCVar("PB_NeverRenderPlayers") or ""
+	local names = {}
+	if current ~= "" then
+		for name in string.gfind(current, "([^,]+)") do
+			name = string.gsub(name, "^%s*(.-)%s*$", "%1")
+			if name ~= "" and name ~= target then
+				names[name] = true
+			end
+		end
+	end
+	
+	local newList = ""
+	for name in pairs(names) do
+		if newList == "" then
+			newList = name
+		else
+			newList = newList .. "," .. name
+		end
+	end
+	
+	PerfBoost.db.profile.PB_NeverRenderPlayers = newList
+	SetCVar("PB_NeverRenderPlayers", newList)
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Removed " .. target .. " from never render list")
+end
+
+SLASH_PBALWAYSRENDERCLEAR1, SLASH_PBALWAYSRENDERCLEAR2 = '/pbalwaysrenderclear', '/pbarc'
+function SlashCmdList.PBALWAYSRENDERCLEAR(msg, editbox)
+	PerfBoost.db.profile.PB_AlwaysRenderPlayers = ""
+	SetCVar("PB_AlwaysRenderPlayers", "")
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Cleared always render list")
+end
+
+SLASH_PBNEVERRENDERCLEAR1, SLASH_PBNEVERRENDERCLEAR2 = '/pbneverrenderclear', '/pbnrc'
+function SlashCmdList.PBNEVERRENDERCLEAR(msg, editbox)
+	PerfBoost.db.profile.PB_NeverRenderPlayers = ""
+	SetCVar("PB_NeverRenderPlayers", "")
+	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Cleared never render list")
 end
