@@ -13,6 +13,7 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 - **Always Render Raid Marks** - Whether to always render raid marks regardless of distance/combat/etc
 - **Always Render Players** - Comma-separated list of player names to always render regardless of other settings
 - **Never Render Players** - Comma-separated list of player names to never render regardless of other settings
+- **Hide All Players** - Hide all players regardless of other render settings
 
 **Note:** The addon will scan for players in your always/never render lists once per minute to cache their GUIDs. For better performance, it's recommended to clear out old names from these lists when players are no longer relevant.
 
@@ -29,6 +30,10 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 - **Default Pet Render Distance** - Max distance to render pets when not in combat (-1 to disable, 0-100 yards)
 - **In Combat Pet Render Distance** - Max distance to render pets when in combat (-1 to disable, 0-100 yards)
 
+### Totem/Guardian Render Distance
+- **Default Totem/Guardian Render Distance** - Max distance to render unnamed summons when not in combat (-1 to disable, 0-100 yards)
+- **In Combat Totem/Guardian Render Distance** - Max distance to render unnamed summons when in combat (-1 to disable, 0-100 yards)
+
 ### Other Rendering
 - **Corpse Render Distance** - Max distance to render corpses (-1 to disable, 0-100 yards)
 
@@ -42,7 +47,8 @@ The addon will prioritize render distances in the following order:
 ## Slash Commands
 
 ### General Commands
-- `/pbenable` or `/perfboostenable` - Toggle performance boost on/off
+- `/pbenable` or `/perfboostenable` - Toggle performance boost on/off.  Can be keybound also.
+- `/pbhideallplayers` or `/pbhap` - Toggle hide all players on/off.  Can be keybound also.
 
 ### Player Render List Commands
 - `/pbalwaysrender` or `/pbar` - Add current target to always render list

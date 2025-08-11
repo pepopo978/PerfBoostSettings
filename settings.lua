@@ -14,6 +14,7 @@ PerfBoost.frame = CreateFrame("Frame", "PerfBoost", UIParent)
 
 BINDING_HEADER_PERFBOOST = "PerfBoost";
 BINDING_NAME_PERFBOOSTENABLE = "Toggles whether perfboot is enabled/disabled";
+BINDING_NAME_PBHIDEALLPLAYERS = "Toggle hide all players";
 
 -- used when turning on per character settings
 function PerfBoost:SavePerCharacterSettings()
@@ -135,6 +136,24 @@ PerfBoost.cmdtable = {
 			end,
 		},
 
+		PB_HideAllPlayers = {
+			type = "toggle",
+			name = "Hide All Players",
+			desc = "Hide all players regardless of other render settings",
+			order = 19,
+			get = function()
+				return GetCVar("PB_HideAllPlayers") == "1"
+			end,
+			set = function(v)
+				PerfBoost.db.profile.PB_HideAllPlayers = v
+				if v == true then
+					SetCVar("PB_HideAllPlayers", "1")
+				else
+					SetCVar("PB_HideAllPlayers", "0")
+				end
+			end,
+		},
+
 		spacerb = {
 			type = "header",
 			name = " ",
@@ -243,7 +262,7 @@ PerfBoost.cmdtable = {
 		PB_PetRenderDist = {
 			type = "range",
 			name = "Default Pet Render Distance",
-			desc = "Max distance to render pets when not in combat",
+			desc = "Max distance to render pets when not in combat.  Your own pet is always shown.",
 			order = 76,
 			min = -1,
 			max = 100,
@@ -260,7 +279,7 @@ PerfBoost.cmdtable = {
 		PB_PetRenderDistInCombat = {
 			type = "range",
 			name = "In Combat Pet Render Distance",
-			desc = "Max distance to render pets when in combat",
+			desc = "Max distance to render pets when in combat. Your own pet is always shown.",
 			order = 77,
 			min = -1,
 			max = 100,
@@ -275,17 +294,52 @@ PerfBoost.cmdtable = {
 			end,
 		},
 
+		PB_SummonRenderDist = {
+			type = "range",
+			name = "Default Totem/Guardian Render Distance",
+			desc = "Max distance to render unnamed summons when not in combat. Your own totems and guardians are always shown.",
+			order = 78,
+			min = -1,
+			max = 100,
+			step = 1,
+			get = function()
+				local val = GetCVar("PB_SummonRenderDist")
+				return val and tonumber(val) or 0
+			end,
+			set = function(v)
+				PerfBoost.db.profile.PB_SummonRenderDist = v
+				SetCVar("PB_SummonRenderDist", tostring(v))
+			end,
+		},
+		PB_SummonRenderDistInCombat = {
+			type = "range",
+			name = "In Combat Totem/Guardian Render Distance",
+			desc = "Max distance to render unnamed summons when in combat. Your own totems and guardians are always shown.",
+			order = 79,
+			min = -1,
+			max = 100,
+			step = 1,
+			get = function()
+				local val = GetCVar("PB_SummonRenderDistInCombat")
+				return val and tonumber(val) or 0
+			end,
+			set = function(v)
+				PerfBoost.db.profile.PB_SummonRenderDistInCombat = v
+				SetCVar("PB_SummonRenderDistInCombat", tostring(v))
+			end,
+		},
+
 		spacere = {
 			type = "header",
 			name = " ",
-			order = 78,
+			order = 80,
 		},
 
 		PB_CorpseRenderDist = {
 			type = "range",
 			name = "Corpse Render Distance",
 			desc = "Max distance to render corpses",
-			order = 80,
+			order = 85,
 			min = -1,
 			max = 100,
 			step = 1,
@@ -302,7 +356,7 @@ PerfBoost.cmdtable = {
 		spacerf = {
 			type = "header",
 			name = " ",
-			order = 85,
+			order = 87,
 		},
 
 		PB_FilterGuidEvents = {
@@ -350,8 +404,10 @@ function SlashCmdList.PBENABLE(msg, editbox)
 	PerfBoost.db.profile.PB_Enabled = v
 	if v == true then
 		SetCVar("PB_Enabled", "1")
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r enabled")
 	else
 		SetCVar("PB_Enabled", "0")
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r disabled")
 	end
 end
 
@@ -511,4 +567,17 @@ function SlashCmdList.PBNEVERRENDERCLEAR(msg, editbox)
 	PerfBoost.db.profile.PB_NeverRenderPlayers = ""
 	SetCVar("PB_NeverRenderPlayers", "")
 	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Cleared never render list")
+end
+
+SLASH_PBHIDEALLPLAYERS1, SLASH_PBHIDEALLPLAYERS2 = '/pbhideallplayers', '/pbhap'
+function SlashCmdList.PBHIDEALLPLAYERS(msg, editbox)
+	local v = not (GetCVar("PB_HideAllPlayers") == "1")
+	PerfBoost.db.profile.PB_HideAllPlayers = v
+	if v == true then
+		SetCVar("PB_HideAllPlayers", "1")
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Hide all players enabled")
+	else
+		SetCVar("PB_HideAllPlayers", "0")
+		DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00PerfBoost:|r Hide all players disabled")
+	end
 end

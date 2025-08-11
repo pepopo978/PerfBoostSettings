@@ -4,4 +4,8 @@
 		SlashCmdList.PBENABLE()
 	</Binding>
 
+	<Binding name="PBHIDEALLPLAYERS" header="PERFBOOST">
+		SlashCmdList.PBHIDEALLPLAYERS()
+	</Binding>
+
 </Bindings>
