@@ -37,6 +37,18 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 ### Other Rendering
 - **Corpse Render Distance** - Max distance to render corpses (-1 to disable, 0-100 yards)
 
+### Spell Visual Settings
+- **Show Other Player Spell Visuals** - Whether to show spell visual effects from other players (spell casts, ranged weapon projectiles, wanding, etc.)
+- **Show Other Player Ground Effects** - Whether to show ground effects from players
+- **Show Other Player Aura Visuals** - Whether to show aura visual effects on players
+- **Show Unit Aura Visuals** - Whether to show aura visual effects on units (NPCs, mobs)
+- **Hide Spells for Hidden Players** - Hide spell visuals from players that are hidden due to render distance or other settings
+- **Always Hidden Spell IDs** - Comma-separated list of spell IDs to hide visuals for (e.g., 1234,5678)
+- **Always Shown Spell IDs** - Comma-separated list of spell IDs to always show visuals for, overriding other settings
+
+### Event Filtering
+- **Filter GUID Events** - Filters out generally unnecessary superwow GUID-based events to reduce event spam and improve performance. Blocks events like UNIT_AURA, UNIT_HEALTH, UNIT_MANA when triggered with a guid instead of a string like 'player' or 'raid1', while preserving commonly used guid events like UNIT_COMBAT and UNIT_MODEL_CHANGED.
+
 ## Distance Priority
 
 The addon will prioritize render distances in the following order:

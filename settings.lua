@@ -88,282 +88,424 @@ PerfBoost.cmdtable = {
 			order = 10,
 		},
 
-		PB_AlwaysRenderRaidMarks = {
-			type = "toggle",
-			name = "Always Render Raid Marks",
-			desc = "Whether to always render raid marks",
+		rendering = {
+			type = "group",
+			name = "Rendering Settings",
+			desc = "Configure all rendering and visibility options",
 			order = 15,
-			get = function()
-				return GetCVar("PB_AlwaysRenderRaidMarks") == "1"
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_AlwaysRenderRaidMarks = v
-				if v == true then
-					SetCVar("PB_AlwaysRenderRaidMarks", "1")
-				else
-					SetCVar("PB_AlwaysRenderRaidMarks", "0")
-				end
-			end,
+			args = {
+				PB_AlwaysRenderRaidMarks = {
+					type = "toggle",
+					name = "Always Render Raid Marks",
+					desc = "Whether to always render raid marks",
+					order = 1,
+					get = function()
+						return GetCVar("PB_AlwaysRenderRaidMarks") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_AlwaysRenderRaidMarks = v
+						if v == true then
+							SetCVar("PB_AlwaysRenderRaidMarks", "1")
+						else
+							SetCVar("PB_AlwaysRenderRaidMarks", "0")
+						end
+					end,
+				},
+
+				PB_AlwaysRenderPlayers = {
+					type = "text",
+					name = "Always Render Players (ENTER to save)",
+					desc = "Comma separated list of playernames to always render regardless of other settings",
+					usage = "Name1,Name2,etc",
+					order = 2,
+					get = function()
+						return GetCVar("PB_AlwaysRenderPlayers") or ""
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_AlwaysRenderPlayers = v
+						SetCVar("PB_AlwaysRenderPlayers", v)
+					end,
+				},
+
+				PB_NeverRenderPlayers = {
+					type = "text",
+					name = "Never Render Players (ENTER to save)",
+					desc = "Comma separated list of playernames to never render regardless of other settings",
+					usage = "Name1,Name2,etc",
+					order = 3,
+					get = function()
+						return GetCVar("PB_NeverRenderPlayers") or ""
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_NeverRenderPlayers = v
+						SetCVar("PB_NeverRenderPlayers", v)
+					end,
+				},
+
+				PB_HideAllPlayers = {
+					type = "toggle",
+					name = "Hide All Players",
+					desc = "Hide all players regardless of other render settings",
+					order = 4,
+					get = function()
+						return GetCVar("PB_HideAllPlayers") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_HideAllPlayers = v
+						if v == true then
+							SetCVar("PB_HideAllPlayers", "1")
+						else
+							SetCVar("PB_HideAllPlayers", "0")
+						end
+					end,
+				},
+
+				spacer_player = {
+					type = "header",
+					name = "Player Distances",
+					order = 10,
+				},
+
+				PB_PlayerRenderDist = {
+					type = "range",
+					name = "Default Player Render Distance",
+					desc = "Max distance to render players when not in combat",
+					order = 11,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_PlayerRenderDist")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_PlayerRenderDist = v
+						SetCVar("PB_PlayerRenderDist", tostring(v))
+					end,
+				},
+				PB_PlayerRenderDistInCombat = {
+					type = "range",
+					name = "In Combat Player Render Distance",
+					desc = "Max distance to render players when in combat",
+					order = 12,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_PlayerRenderDistInCombat")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_PlayerRenderDistInCombat = v
+						SetCVar("PB_PlayerRenderDistInCombat", tostring(v))
+					end,
+				},
+				PB_PlayerRenderDistInCities = {
+					type = "range",
+					name = "In Cities Player Render Distance",
+					desc = "Max distance to render players when in cities",
+					order = 13,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_PlayerRenderDistInCities")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_PlayerRenderDistInCities = v
+						SetCVar("PB_PlayerRenderDistInCities", tostring(v))
+					end,
+				},
+
+				spacer_trash = {
+					type = "header",
+					name = "Trash Units",
+					order = 20,
+				},
+
+				PB_TrashUnitRenderDist = {
+					type = "range",
+					name = "Default Trash Unit (lvl < 63) Render Distance",
+					desc = "Max distance to render trash units when not in combat",
+					order = 21,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_TrashUnitRenderDist")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_TrashUnitRenderDist = v
+						SetCVar("PB_TrashUnitRenderDist", tostring(v))
+					end,
+				},
+				PB_TrashUnitRenderDistInCombat = {
+					type = "range",
+					name = "In Combat Trash Unit (lvl < 63) Render Distance",
+					desc = "Max distance to render trash units when in combat",
+					order = 22,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_TrashUnitRenderDistInCombat")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_TrashUnitRenderDistInCombat = v
+						SetCVar("PB_TrashUnitRenderDistInCombat", tostring(v))
+					end,
+				},
+
+				spacer_pets = {
+					type = "header",
+					name = "Pets & Summons",
+					order = 30,
+				},
+
+				PB_PetRenderDist = {
+					type = "range",
+					name = "Default Pet Render Distance",
+					desc = "Max distance to render pets when not in combat.  Your own pet is always shown.",
+					order = 31,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_PetRenderDist")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_PetRenderDist = v
+						SetCVar("PB_PetRenderDist", tostring(v))
+					end,
+				},
+				PB_PetRenderDistInCombat = {
+					type = "range",
+					name = "In Combat Pet Render Distance",
+					desc = "Max distance to render pets when in combat. Your own pet is always shown.",
+					order = 32,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_PetRenderDistInCombat")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_PetRenderDistInCombat = v
+						SetCVar("PB_PetRenderDistInCombat", tostring(v))
+					end,
+				},
+
+				PB_SummonRenderDist = {
+					type = "range",
+					name = "Default Totem/Guardian Render Distance",
+					desc = "Max distance to render unnamed summons when not in combat. Your own totems and guardians are always shown.",
+					order = 33,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_SummonRenderDist")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_SummonRenderDist = v
+						SetCVar("PB_SummonRenderDist", tostring(v))
+					end,
+				},
+				PB_SummonRenderDistInCombat = {
+					type = "range",
+					name = "In Combat Totem/Guardian Render Distance",
+					desc = "Max distance to render unnamed summons when in combat. Your own totems and guardians are always shown.",
+					order = 34,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_SummonRenderDistInCombat")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_SummonRenderDistInCombat = v
+						SetCVar("PB_SummonRenderDistInCombat", tostring(v))
+					end,
+				},
+
+				spacer_corpse = {
+					type = "header",
+					name = "Other Objects",
+					order = 40,
+				},
+
+				PB_CorpseRenderDist = {
+					type = "range",
+					name = "Corpse Render Distance",
+					desc = "Max distance to render corpses",
+					order = 41,
+					min = -1,
+					max = 100,
+					step = 1,
+					get = function()
+						local val = GetCVar("PB_CorpseRenderDist")
+						return val and tonumber(val) or 0
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_CorpseRenderDist = v
+						SetCVar("PB_CorpseRenderDist", tostring(v))
+					end,
+				},
+
+			},
 		},
 
-		PB_AlwaysRenderPlayers = {
-			type = "text",
-			name = "Always Render Players (ENTER to save)",
-			desc = "Comma separated list of playernames to always render regardless of other settings",
-			usage = "Name1,Name2,etc",
-			order = 17,
-			get = function()
-				return GetCVar("PB_AlwaysRenderPlayers") or ""
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_AlwaysRenderPlayers = v
-				SetCVar("PB_AlwaysRenderPlayers", v)
-			end,
-		},
-
-		PB_NeverRenderPlayers = {
-			type = "text",
-			name = "Never Render Players (ENTER to save)",
-			desc = "Comma separated list of playernames to never render regardless of other settings",
-			usage = "Name1,Name2,etc",
-			order = 18,
-			get = function()
-				return GetCVar("PB_NeverRenderPlayers") or ""
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_NeverRenderPlayers = v
-				SetCVar("PB_NeverRenderPlayers", v)
-			end,
-		},
-
-		PB_HideAllPlayers = {
-			type = "toggle",
-			name = "Hide All Players",
-			desc = "Hide all players regardless of other render settings",
-			order = 19,
-			get = function()
-				return GetCVar("PB_HideAllPlayers") == "1"
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_HideAllPlayers = v
-				if v == true then
-					SetCVar("PB_HideAllPlayers", "1")
-				else
-					SetCVar("PB_HideAllPlayers", "0")
-				end
-			end,
-		},
-
-		spacerb = {
-			type = "header",
-			name = " ",
+		spells = {
+			type = "group",
+			name = "Spell Visual Settings",
+			desc = "Configure spell visual effects and filtering",
 			order = 20,
+			args = {
+				PB_ShowPlayerSpellVisuals = {
+					type = "toggle",
+					name = "Show Other Player Spell Visuals",
+					desc = "Whether to show spell visual effects from other players.  This includes spell casts, ranged weapon projectiles, wanding, not sure what else.",
+					order = 1,
+					get = function()
+						return GetCVar("PB_ShowPlayerSpellVisuals") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_ShowPlayerSpellVisuals = v
+						if v == true then
+							SetCVar("PB_ShowPlayerSpellVisuals", "1")
+						else
+							SetCVar("PB_ShowPlayerSpellVisuals", "0")
+						end
+					end,
+				},
+
+				PB_ShowPlayerGroundEffects = {
+					type = "toggle",
+					name = "Show Other Player Ground Effects",
+					desc = "Whether to show ground effects from players",
+					order = 2,
+					get = function()
+						return GetCVar("PB_ShowPlayerGroundEffects") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_ShowPlayerGroundEffects = v
+						if v == true then
+							SetCVar("PB_ShowPlayerGroundEffects", "1")
+						else
+							SetCVar("PB_ShowPlayerGroundEffects", "0")
+						end
+					end,
+				},
+
+				PB_ShowPlayerAuraVisuals = {
+					type = "toggle",
+					name = "Show Other Player Aura Visuals",
+					desc = "Whether to show aura visual effects on players",
+					order = 3,
+					get = function()
+						return GetCVar("PB_ShowPlayerAuraVisuals") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_ShowPlayerAuraVisuals = v
+						if v == true then
+							SetCVar("PB_ShowPlayerAuraVisuals", "1")
+						else
+							SetCVar("PB_ShowPlayerAuraVisuals", "0")
+						end
+					end,
+				},
+
+				PB_ShowUnitAuraVisuals = {
+					type = "toggle",
+					name = "Show Unit Aura Visuals",
+					desc = "Whether to show aura visual effects on units (NPCs, mobs)",
+					order = 4,
+					get = function()
+						return GetCVar("PB_ShowUnitAuraVisuals") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_ShowUnitAuraVisuals = v
+						if v == true then
+							SetCVar("PB_ShowUnitAuraVisuals", "1")
+						else
+							SetCVar("PB_ShowUnitAuraVisuals", "0")
+						end
+					end,
+				},
+
+				PB_HideSpellsForHiddenPlayers = {
+					type = "toggle",
+					name = "Hide Spells for Hidden Players",
+					desc = "Hide spell visuals from players that are hidden due to render distance or other settings",
+					order = 5,
+					get = function()
+						return GetCVar("PB_HideSpellsForHiddenPlayers") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_HideSpellsForHiddenPlayers = v
+						if v == true then
+							SetCVar("PB_HideSpellsForHiddenPlayers", "1")
+						else
+							SetCVar("PB_HideSpellsForHiddenPlayers", "0")
+						end
+					end,
+				},
+
+				spacer_spells = {
+					type = "header",
+					order = 10,
+				},
+
+				PB_HiddenSpellIds = {
+					type = "text",
+					name = "Always Hidden Spell IDs (ENTER to save)",
+					desc = "Comma separated list of spell IDs to hide visuals for",
+					usage = "1234,5678,etc",
+					order = 11,
+					get = function()
+						return GetCVar("PB_HiddenSpellIds") or ""
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_HiddenSpellIds = v
+						SetCVar("PB_HiddenSpellIds", v)
+					end,
+				},
+
+				PB_AlwaysShownSpellIds = {
+					type = "text",
+					name = "Always Shown Spell IDs (ENTER to save)",
+					desc = "Comma separated list of spell IDs to always show visuals for, overriding other settings",
+					usage = "1234,5678,etc",
+					order = 12,
+					get = function()
+						return GetCVar("PB_AlwaysShownSpellIds") or ""
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_AlwaysShownSpellIds = v
+						SetCVar("PB_AlwaysShownSpellIds", v)
+					end,
+				},
+			},
 		},
 
-		PB_PlayerRenderDistInCombat = {
-			type = "range",
-			name = "In Combat Player Render Distance",
-			desc = "Max distance to render players when in combat",
-			order = 35,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_PlayerRenderDistInCombat")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_PlayerRenderDistInCombat = v
-				SetCVar("PB_PlayerRenderDistInCombat", tostring(v))
-			end,
-		},
-		PB_PlayerRenderDistInCities = {
-			type = "range",
-			name = "In Cities Player Render Distance",
-			desc = "Max distance to render players when in cities",
-			order = 37,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_PlayerRenderDistInCities")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_PlayerRenderDistInCities = v
-				SetCVar("PB_PlayerRenderDistInCities", tostring(v))
-			end,
-		},
-		PB_PlayerRenderDist = {
-			type = "range",
-			name = "Default Player Render Distance",
-			desc = "Max distance to render players when not in combat",
-			order = 30,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_PlayerRenderDist")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_PlayerRenderDist = v
-				SetCVar("PB_PlayerRenderDist", tostring(v))
-			end,
-		},
-
-		spacerc = {
+		spacer_main = {
 			type = "header",
 			name = " ",
-			order = 50,
-		},
-
-		PB_TrashUnitRenderDistInCombat = {
-			type = "range",
-			name = "In Combat Trash Unit (lvl < 63) Render Distance",
-			desc = "Max distance to render trash units when in combat",
-			order = 70,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_TrashUnitRenderDistInCombat")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_TrashUnitRenderDistInCombat = v
-				SetCVar("PB_TrashUnitRenderDistInCombat", tostring(v))
-			end,
-		},
-		PB_TrashUnitRenderDist = {
-			type = "range",
-			name = "Default Trash Unit (lvl < 63) Render Distance",
-			desc = "Max distance to render trash units when not in combat",
-			order = 60,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_TrashUnitRenderDist")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_TrashUnitRenderDist = v
-				SetCVar("PB_TrashUnitRenderDist", tostring(v))
-			end,
-		},
-
-		spacerd = {
-			type = "header",
-			name = " ",
-			order = 75,
-		},
-
-		PB_PetRenderDist = {
-			type = "range",
-			name = "Default Pet Render Distance",
-			desc = "Max distance to render pets when not in combat.  Your own pet is always shown.",
-			order = 76,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_PetRenderDist")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_PetRenderDist = v
-				SetCVar("PB_PetRenderDist", tostring(v))
-			end,
-		},
-		PB_PetRenderDistInCombat = {
-			type = "range",
-			name = "In Combat Pet Render Distance",
-			desc = "Max distance to render pets when in combat. Your own pet is always shown.",
-			order = 77,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_PetRenderDistInCombat")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_PetRenderDistInCombat = v
-				SetCVar("PB_PetRenderDistInCombat", tostring(v))
-			end,
-		},
-
-		PB_SummonRenderDist = {
-			type = "range",
-			name = "Default Totem/Guardian Render Distance",
-			desc = "Max distance to render unnamed summons when not in combat. Your own totems and guardians are always shown.",
-			order = 78,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_SummonRenderDist")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_SummonRenderDist = v
-				SetCVar("PB_SummonRenderDist", tostring(v))
-			end,
-		},
-		PB_SummonRenderDistInCombat = {
-			type = "range",
-			name = "In Combat Totem/Guardian Render Distance",
-			desc = "Max distance to render unnamed summons when in combat. Your own totems and guardians are always shown.",
-			order = 79,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_SummonRenderDistInCombat")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_SummonRenderDistInCombat = v
-				SetCVar("PB_SummonRenderDistInCombat", tostring(v))
-			end,
-		},
-
-		spacere = {
-			type = "header",
-			name = " ",
-			order = 80,
-		},
-
-		PB_CorpseRenderDist = {
-			type = "range",
-			name = "Corpse Render Distance",
-			desc = "Max distance to render corpses",
-			order = 85,
-			min = -1,
-			max = 100,
-			step = 1,
-			get = function()
-				local val = GetCVar("PB_CorpseRenderDist")
-				return val and tonumber(val) or 0
-			end,
-			set = function(v)
-				PerfBoost.db.profile.PB_CorpseRenderDist = v
-				SetCVar("PB_CorpseRenderDist", tostring(v))
-			end,
-		},
-
-		spacerf = {
-			type = "header",
-			name = " ",
-			order = 87,
+			order = 25,
 		},
 
 		PB_FilterGuidEvents = {
 			type = "toggle",
 			name = "Filter GUID Events",
 			desc = "Filters out generally unnecessary superwow GUID-based events to reduce event spam and improve performance. Blocks events like UNIT_AURA, UNIT_HEALTH, UNIT_MANA when triggered with a guid instead of a string like 'player' or 'raid1', while preserving commonly used guid events like UNIT_COMBAT and UNIT_MODEL_CHANGED.",
-			order = 90,
+			order = 30,
 			get = function()
 				return GetCVar("PB_FilterGuidEvents") == "1"
 			end,
