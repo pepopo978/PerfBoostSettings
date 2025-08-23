@@ -5,6 +5,8 @@
 - If you want different settings on different characters enable `Per character settings` otherwise settings will be shared with all your characters
 - Play around with the settings to best fit your role (tanks and healers likely don't want to hide as much stuff as ranged dps)
 
+- If you don't want to hide players just turning off their spell effects will still be a large performance boost
+
 # 1.  Setup keybinds or a macro to turn off perf boost quickly when needed
 <img width="923" height="121" alt="image" src="https://github.com/user-attachments/assets/c073185c-37f9-4992-bdcf-f1c73b1b82d8" />
 
