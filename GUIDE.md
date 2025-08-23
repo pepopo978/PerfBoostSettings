@@ -1,5 +1,5 @@
 # Installation
-- Add dll from https://github.com/pepopo978/perf_boost/releases next to WoW.exe
+- Add the dll from the lastest https://github.com/pepopo978/perf_boost/releases next to WoW.exe
 - Enable perf_boost.dll in the launcher if you use it or add perf_boost.dll to dlls.txt
 
 
