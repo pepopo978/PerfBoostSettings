@@ -1,3 +1,10 @@
+# Installation
+- Add dll from https://github.com/pepopo978/perf_boost/releases next to WoW.exe
+- Enable perf_boost.dll in the launcher if you use it or add perf_boost.dll to dlls.txt
+
+
+- Install https://github.com/pepopo978/PerfBoostSettings like any other addon
+
 # General
 - Any distance set to -1 just means it is disabled and that category won't ever be hidden.
 - Setting a distance to 0 will always hide that category
