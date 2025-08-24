@@ -112,12 +112,30 @@ PerfBoost.cmdtable = {
 					end,
 				},
 
+				PB_AlwaysRenderPVP = {
+					type = "toggle",
+					name = "Always Render PVP Players",
+					desc = "Whether to always render players flagged for PVP",
+					order = 2,
+					get = function()
+						return GetCVar("PB_AlwaysRenderPVP") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_AlwaysRenderPVP = v
+						if v == true then
+							SetCVar("PB_AlwaysRenderPVP", "1")
+						else
+							SetCVar("PB_AlwaysRenderPVP", "0")
+						end
+					end,
+				},
+
 				PB_AlwaysRenderPlayers = {
 					type = "text",
 					name = "Always Render Players (ENTER to save)",
 					desc = "Comma separated list of playernames to always render regardless of other settings",
 					usage = "Name1,Name2,etc",
-					order = 2,
+					order = 3,
 					get = function()
 						return GetCVar("PB_AlwaysRenderPlayers") or ""
 					end,
@@ -132,7 +150,7 @@ PerfBoost.cmdtable = {
 					name = "Never Render Players (ENTER to save)",
 					desc = "Comma separated list of playernames to never render regardless of other settings",
 					usage = "Name1,Name2,etc",
-					order = 3,
+					order = 4,
 					get = function()
 						return GetCVar("PB_NeverRenderPlayers") or ""
 					end,
@@ -146,7 +164,7 @@ PerfBoost.cmdtable = {
 					type = "toggle",
 					name = "Hide All Players",
 					desc = "Hide all players regardless of other render settings",
-					order = 4,
+					order = 5,
 					get = function()
 						return GetCVar("PB_HideAllPlayers") == "1"
 					end,
