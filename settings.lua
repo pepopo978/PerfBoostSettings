@@ -18,22 +18,31 @@ BINDING_NAME_PBHIDEALLPLAYERS = "Toggle hide all players";
 
 -- used when turning on per character settings
 function PerfBoost:SavePerCharacterSettings()
-	for settingKey, settingData in pairs(PerfBoost.cmdtable.args) do
-		if string.find(settingKey, "PB_") == 1 then
-			settingData.set(settingData.get()) -- trigger the set function for each setting with the current value
-		end
-	end
-end
-
-function PerfBoost:ApplySavedSettings()
-	for settingKey, settingData in pairs(PerfBoost.cmdtable.args) do
-		-- only apply settings that are prefixed with PB_
-		if string.find(settingKey, "PB_") == 1 then
-			if PerfBoost.db.profile[settingKey] ~= nil then
-				settingData.set(PerfBoost.db.profile[settingKey])
+	local function saveNestedSettings(args)
+		for settingKey, settingData in pairs(args) do
+			if string.find(settingKey, "PB_") == 1 and settingData.get and settingData.set then
+				settingData.set(settingData.get()) -- trigger the set function for each setting with the current value
+			elseif settingData.args then
+				saveNestedSettings(settingData.args)
 			end
 		end
 	end
+	saveNestedSettings(PerfBoost.cmdtable.args)
+end
+
+function PerfBoost:ApplySavedSettings()
+	local function applyNestedSettings(args)
+		for settingKey, settingData in pairs(args) do
+			if string.find(settingKey, "PB_") == 1 and settingData.set then
+				if PerfBoost.db.profile[settingKey] ~= nil then
+					settingData.set(PerfBoost.db.profile[settingKey])
+				end
+			elseif settingData.args then
+				applyNestedSettings(settingData.args)
+			end
+		end
+	end
+	applyNestedSettings(PerfBoost.cmdtable.args)
 end
 
 function PerfBoost:OnEnable()
