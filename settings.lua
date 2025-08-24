@@ -510,6 +510,24 @@ PerfBoost.cmdtable = {
 						SetCVar("PB_AlwaysShownSpellIds", v)
 					end,
 				},
+
+				PB_ApplyHiddenSpellIdsToMe = {
+					type = "toggle",
+					name = "Apply Hidden Spell IDs to Me",
+					desc = "Whether to apply the hidden spell IDs list to your own character's spells",
+					order = 13,
+					get = function()
+						return GetCVar("PB_ApplyHiddenSpellIdsToMe") == "1"
+					end,
+					set = function(v)
+						PerfBoost.db.profile.PB_ApplyHiddenSpellIdsToMe = v
+						if v == true then
+							SetCVar("PB_ApplyHiddenSpellIdsToMe", "1")
+						else
+							SetCVar("PB_ApplyHiddenSpellIdsToMe", "0")
+						end
+					end,
+				},
 			},
 		},
 
