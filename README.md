@@ -2,6 +2,8 @@
 
 A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/perf_boost that provides an easy-to-use interface for adjusting performance optimization settings.
 
+### [Guide for new users](GUIDE.md)
+
 ## Settings
 
 ### Master Control
