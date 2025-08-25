@@ -13,6 +13,8 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 
 ### Rendering Settings
 - **Always Render Raid Marks** - Whether to always render raid marks regardless of distance/combat/etc
+- **Always Render PVP Players** - Whether to always render players flagged for PVP
+- **Always Render Players With Aggro** - Whether to always render players who have aggro from enemies
 - **Always Render Players** - Comma-separated list of player names to always render regardless of other settings
 - **Never Render Players** - Comma-separated list of player names to never render regardless of other settings
 - **Hide All Players** - Hide all players regardless of other render settings
@@ -47,6 +49,7 @@ A configuration addon for the perf_boost.dll mod https://github.com/pepopo978/pe
 - **Hide Spells for Hidden Players** - Hide spell visuals from players that are hidden due to render distance or other settings
 - **Always Hidden Spell IDs** - Comma-separated list of spell IDs to hide visuals for (e.g., 1234,5678)
 - **Always Shown Spell IDs** - Comma-separated list of spell IDs to always show visuals for, overriding other settings
+- **Apply Hidden Spell IDs to Me** - Whether to apply the hidden spell IDs list to your own character's spells
 
 ### Event Filtering
 - **Filter GUID Events** - Filters out generally unnecessary superwow GUID-based events to reduce event spam and improve performance. Blocks events like UNIT_AURA, UNIT_HEALTH, UNIT_MANA when triggered with a guid instead of a string like 'player' or 'raid1', while preserving commonly used guid events like UNIT_COMBAT and UNIT_MODEL_CHANGED.
