@@ -53,3 +53,8 @@ Or can macro these commands if you prefer
 - Player auras off
   
 - Whitelist specific spells by adding them to Always Shown Spell Ids
+
+# 4.  Filter GUID Events
+`Filters out generally unnecessary superwow GUID-based events to reduce event spam and improve performance. Blocks events like UNIT_AURA, UNIT_HEALTH, UNIT_MANA when triggered with a guid instead of a string like 'player' or 'raid1', while preserving commonly used guid events like UNIT_COMBAT and UNIT_MODEL_CHANGED.`
+
+If you use superwow you most likely can turn this on to reduce event spam.  I think very few addons will be affected by turning this on whereas many addons are affected by the repeat event spam.  If you notice something no longer happening in one of your addons just disable this setting.
